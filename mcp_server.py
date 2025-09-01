@@ -1,6 +1,6 @@
 from mcp.server.fastmcp import FastMCP
 
-
+import sys
 import logging
 
 mcp = FastMCP(name="mcp_server")
@@ -29,8 +29,23 @@ def find_weather():
     return prompt
 
 
-# Set up a server with necessary tool and resourc
-if __name__ == "__main__":
-    import asyncio
+# # Set up a server with necessary tool and resourc
+# if __name__ == "__main__":
 
-    asyncio.run(mcp.run(transport="sse"))
+#     print("Start server in stdio mode")
+#     mcp.run(transport='stdio')
+#     print(f"Server is still running")
+#     # import asyncio
+
+#     # asyncio.run(mcp.run(transport="sse"))
+logging.basicConfig(
+    stream=sys.stderr,  # IMPORTANT — use stderr, not stdout
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
+
+if __name__ == "__main__":
+    logger.info("Starting MCP stdio server (logs → stderr)...")
+    mcp.run(transport="stdio")
+    logger.info("Server is still running")
