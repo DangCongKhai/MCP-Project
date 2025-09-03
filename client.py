@@ -67,7 +67,7 @@ async def run():
             #     prompt_name = prompts.prompts[0].name
             #     print(f"\nCompleting arguments for prompt: {prompt_name}")
 
-            #     result = await session.complete(
+            #     result = await sessionx.complete(
             #         ref=PromptReference(type="ref/prompt", name=prompt_name),
             #         argument={"name": "style", "value": ""},
             #     )

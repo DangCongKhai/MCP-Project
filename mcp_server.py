@@ -39,13 +39,18 @@ def find_weather():
 
 #     # asyncio.run(mcp.run(transport="sse"))
 logging.basicConfig(
-    stream=sys.stderr,  # IMPORTANT — use stderr, not stdout
+    stream=sys.stdout,  # IMPORTANT — use stderr, not stdout
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
 )
+
+# Here are my additional questions that I really want to know more about
+# 1. How much should I understand about a particular thing in programing?
+# 2. Should we only 
 logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     logger.info("Starting MCP stdio server (logs → stderr)...")
     mcp.run(transport="stdio")
-    logger.info("Server is still running")
+    # logger.info("Server is still running")
+    print('Server is still running', file=sys.stderr)
