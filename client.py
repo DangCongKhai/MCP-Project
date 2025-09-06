@@ -28,7 +28,7 @@ async def run():
 
             # List available prompts
             prompts = await session.list_prompts()
-
+            print('prompts')
             for prompt in prompts.prompts:
                 print(f"Prompt: {prompt.name}")
 
