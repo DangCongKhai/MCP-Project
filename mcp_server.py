@@ -2,55 +2,50 @@ from mcp.server.fastmcp import FastMCP
 
 import sys
 import logging
+import asyncio
+from dotenv import load_dotenv
+import os
+import httpx
+from typing_extensions import Dict
+load_dotenv()
 
+OPEN_WEATHER_API_KEY = os.environ.get("OPEN_WEATHER_API_KEY")
+BASE_OPEN_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
 mcp = FastMCP(name="mcp_server")
 
-
 @mcp.tool(description="Get weather tool")
-def get_weather(location: str):
-    logging.info("Get weather")
-    return 20
+async def get_weather(location: str) -> Dict[str, any]:
+    """Get the weather condition at a given location
 
-
-# Define resource
-@mcp.resource(uri="file://{name}.txt")
-def get_info(name: str):
-    """Get a person info"""
-    logging.info("Get person info")
-    return f"Hello, {name}. Here is your resource"
-
-
-@mcp.prompt()
-def find_weather():
-    logging.info("Return user prompt")
-    prompt = (
-        "Give me the weather condition in a specified place in the most specific way"
-    )
-    return prompt
-
-
-# # Set up a server with necessary tool and resourc
-# if __name__ == "__main__":
-
-#     print("Start server in stdio mode")
-#     mcp.run(transport='stdio')
-#     print(f"Server is still running")
-#     # import asyncio
-
-#     # asyncio.run(mcp.run(transport="sse"))
-logging.basicConfig(
-    stream=sys.stdout,  # IMPORTANT — use stderr, not stdout
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-)
-
-# Here are my additional questions that I really want to know more about
-# 1. How much should I understand about a particular thing in programing?
-# 2. Should we only 
+    Args:
+        location (str): Location in the user query
+    """
+    
+    url = BASE_OPEN_WEATHER_URL + f"?q={location}"
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url)
+            response.raise_for_status()
+            
+            if response.status_code == 200:
+                # Get response
+                result = response.json()
+                weather_info = result['weather']
+                return {
+                    "weather_condition" : weather_info['main'],
+                    "description" : weather_info['description']
+                }
+            else:
+                return {}
+        except httpx.HTTPStatusError as exc:
+            print(f"Error response {exc.response.status_code} while making request")
+            return {}
+        except Exception as e:
+            print(F"An exception occurs while getting weather at given location")
+            return {}
+            
+            
 logger = logging.getLogger(__name__)
 
-if __name__ == "__main__":
-    logger.info("Starting MCP stdio server (logs → stderr)...")
-    mcp.run(transport="stdio")
-    # logger.info("Server is still running")
-    print('Server is still running', file=sys.stderr)
+if __name__ == '__main__':
+    

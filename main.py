@@ -1,5 +1,7 @@
+import streamlit as st
+
 def main():
-    print("Hello from mcp!")
+    st.write("hello world. This is my application")
 
 
 if __name__ == "__main__":
