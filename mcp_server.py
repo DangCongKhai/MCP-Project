@@ -48,4 +48,4 @@ async def get_weather(location: str) -> Dict[str, any]:
 logger = logging.getLogger(__name__)
 
 if __name__ == '__main__':
-    
+    mcp.run(transport='sse')
