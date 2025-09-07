@@ -9,6 +9,11 @@ wheels/
 # Virtual environments
 .venv
 
+# Credential file
+.env
 
 # All txt file
 *.txt
+
+# Sandbox
+sandbox.ipynb
