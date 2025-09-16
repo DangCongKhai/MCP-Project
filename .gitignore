@@ -17,3 +17,6 @@ wheels/
 
 # Sandbox
 sandbox.ipynb
+
+# Ignore pdf generated
+.pdf
