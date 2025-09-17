@@ -1,3 +1,4 @@
+from typing import Union
 from mcp.server.fastmcp import FastMCP
 
 import sys
@@ -48,7 +49,15 @@ async def get_weather(location: str) -> Dict[str, str]:
 
 
 @mcp.tool()
-def get_personal_information(name: str):
+def get_personal_information(name: str) -> Dict[str, Union[str | int]]:
+    """Get personal information of a particular name
+
+    Args:
+        name (str): name of the person you want to get personal information
+
+    Returns:
+        Dict[str, Union[str|int]]: _description_
+    """
     return {"school": "VNUK", "age": 12, "hobby": "football", "name": name}
 
 
