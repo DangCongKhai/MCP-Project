@@ -73,7 +73,7 @@ class MCPClient:
         # messages = [{"role": "user", "content": query}]
 
         mcp_tools = await self.session.list_tools()
-        print("MCP tools: ", mcp_tools.tools)
+        # print("MCP tools: ", mcp_tools.tools)
 
         available_tools = [
             types.Tool(
